@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+if ["$#" -ne1 ]; then
+	echo "Usage: recon <IP>"
+	exit 1
+fi
+
+IP=$1
+
+# Try to find latest lab folder automatically
+BASE_LAB=$(ls -td ~/Labs/*/* 2>/dev/null | head -n 1)
+
+if [ -z "$BASE_LAB" ]; then
+	echo "[-] No lab found. Run newlab first."
+	exit 1
+fi
+
+SCAN_DIR="$BASE_LAB/scans"
+
+echo "[+] Running recon on $IP"
+echo "[+] Saving to $SCAN_DIR"
+
+mkdir -p "$SCAN_DIR"
+
+# Timestamp
+TS=$(date +%F_%H-%M)
+
+echo "[+] Quick Nmap scan..."
+nmap -sC -sV -oN "$SCAN_DIR/nmap_full_$TS.txt" "$IP"
+
+echo "[+] Done!"
+echo "[+]Results saved in $SCAN_DIR"
+

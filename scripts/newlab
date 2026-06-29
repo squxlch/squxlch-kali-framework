@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+if [ "$#" -ne 2 ]; then
+	echo "Usage: newlab <Platform> <LabName>"
+	exit 1
+fi
+
+PLATFORM=$1
+LAB=$2
+
+BASE="$HOME/Labs/$PLATFORM/$LAB"
+
+echo "[+] Creating lab..."
+
+mkdir -p "$BASE/scans"
+mkdir -p "$BASE/exploits"
+mkdir -p "$BASE/reports"
+mkdir -p "$BASE/evidence"
+
+mkdir -p "$BASE/loot/credentials"
+mkdir -p "$BASE/loot/hashes"
+mkdir -p "$BASE/loot/keys"
+mkdir -p "$BASE/loot/configs"
+mkdir -p "$BASE/loot/files"
+mkdir -p "$BASE/loot/screenshots"
+
+cat > "$BASE/notes.md" <<EOF
+# $LAB
+
+Platform: $PLATFORM
+
+---
+
+## Target Info
+IP:
+OS:
+Difficulty:
+
+---
+
+### Enumeration
+
+---
+
+## Exploitation
+
+---
+
+### Privilege Escalation
+
+---
+
+## Loot
+
+---
+
+## Lessons Learned
+EOF
+
+cat >"$BASE/todo.md" <<EOF
+- [ ] Recon
+- [ ] Enumeration
+- [ ] Initial access
+- [ ] Privilege Escalation
+- [ ] Proof
+EOF
+
+touch "$BASE/README.md"
+touch "$BASE/loot/notes.md"
+
+echo "[+] Done!"
+echo
+echo "$BASE"
+
